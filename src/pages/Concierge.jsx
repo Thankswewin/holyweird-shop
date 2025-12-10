@@ -8,7 +8,7 @@ const Concierge = () => {
         <div className="min-h-screen bg-obsidian">
             {/* HERO */}
             <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
-                <div className="absolute inset-0 bg-lapis/10" />
+                <div className="absolute inset-0 bg-black" />
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent to-obsidian" />
 
                 <div className="relative z-10 text-center max-w-3xl px-4">
@@ -53,7 +53,7 @@ const Concierge = () => {
                         ))}
                     </div>
 
-                    <div className="bg-lapis/20 p-8 rounded-2xl border border-lapis/50">
+                    <div className="bg-white/5 p-8 rounded-2xl border border-white/10">
                         <h3 className="text-xl font-bold mb-4">Direct Contact</h3>
                         <div className="space-y-2 text-gray-200">
                             <p>Milda Juskaite</p>

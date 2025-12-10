@@ -111,8 +111,7 @@ const Home = () => {
             </section>
 
             {/* DOLLY TEASER */}
-            <section className="py-24 relative overflow-hidden">
-                <div className="absolute inset-0 bg-lapis/20" />
+            <section className="py-24 relative overflow-hidden bg-black">
                 <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
                     <motion.div
                         initial={{ opacity: 0, x: -50 }}
@@ -138,12 +137,12 @@ const Home = () => {
                                 { icon: Zap, text: "Weird Engine Optimization" }
                             ].map((feat, i) => (
                                 <li key={i} className="flex items-center gap-3 text-gray-400">
-                                    <feat.icon className="w-5 h-5 text-lapis" /> {feat.text}
+                                    <feat.icon className="w-5 h-5 text-white" /> {feat.text}
                                 </li>
                             ))}
                         </ul>
                         <Link to="/dolly-builder">
-                            <Button size="lg" className="mt-4 bg-lapis hover:bg-lapis/80 text-white min-w-[200px]">
+                            <Button size="lg" className="mt-4 bg-white hover:bg-palladium text-black min-w-[200px]">
                                 Start Configuration
                             </Button>
                         </Link>
@@ -155,7 +154,7 @@ const Home = () => {
                         viewport={{ once: true }}
                         className="relative"
                     >
-                        <div className="absolute inset-0 bg-lapis/30 blur-3xl rounded-full" />
+                        <div className="absolute inset-0 bg-white/10 blur-3xl rounded-full" />
                         <img src={dollyImg} alt="Dolly Builder" className="relative z-10 rounded-2xl border border-white/20 shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-700" />
                     </motion.div>
                 </div>
