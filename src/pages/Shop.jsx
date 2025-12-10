@@ -1,18 +1,38 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Filter, X, ChevronDown } from 'lucide-react';
+import { Filter, X, ChevronDown, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import ProductCard from '@/components/ui/ProductCard';
-import { products } from '@/data/products';
+import { products as localProducts } from '@/data/products';
 import { cn } from '@/lib/utils';
+import { productsAPI } from '@/lib/api';
 
 const Shop = () => {
     const [isFilterOpen, setIsFilterOpen] = useState(false);
+    const [products, setProducts] = useState(localProducts);
+    const [loading, setLoading] = useState(true);
     const [activeFilters, setActiveFilters] = useState({
         category: 'All',
         material: 'All',
         availability: 'All'
     });
+
+    // Fetch products from API (with fallback to local data)
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const apiProducts = await productsAPI.getAll();
+                if (apiProducts && apiProducts.length > 0) {
+                    setProducts(apiProducts);
+                }
+            } catch (error) {
+                console.log('Using local product data (API not available)');
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchProducts();
+    }, []);
 
     // Extract unique values for filters
     const categories = ['All', ...new Set(products.map(p => p.category))];
@@ -27,7 +47,7 @@ const Shop = () => {
             const matchAvailability = activeFilters.availability === 'All' || product.availability === activeFilters.availability;
             return matchCategory && matchMaterial && matchAvailability;
         });
-    }, [activeFilters]);
+    }, [activeFilters, products]);
 
     const FilterSection = ({ title, options, filterKey }) => (
         <div className="mb-6">
