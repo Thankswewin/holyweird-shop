@@ -55,12 +55,12 @@ const WeirdClinic = () => {
         <div className="min-h-screen bg-obsidian font-mono">
             {/* Hero with blurred background */}
             <section className="relative py-24 overflow-hidden">
-                {/* Blurred background image */}
+                {/* Background image - no blur, crisp */}
                 <div
-                    className="absolute inset-0 bg-cover bg-center opacity-20 blur-sm scale-110"
+                    className="absolute inset-0 bg-cover bg-center opacity-25"
                     style={{ backgroundImage: `url(${clinicBg})` }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-b from-obsidian/80 via-obsidian/60 to-obsidian" />
+                <div className="absolute inset-0 bg-gradient-to-b from-obsidian/60 via-obsidian/40 to-obsidian" />
 
                 <div className="container mx-auto px-4 relative z-10">
                     <motion.div
@@ -107,8 +107,8 @@ const WeirdClinic = () => {
                                 whileHover={{ y: -5 }}
                                 onClick={() => setSelectedService(service.id)}
                                 className={`cursor-pointer p-6 rounded-2xl border transition-all ${selectedService === service.id
-                                        ? 'bg-red-500/10 border-red-500'
-                                        : 'bg-white/5 border-white/10 hover:border-white/30 hover:bg-white/10'
+                                    ? 'bg-red-500/10 border-red-500'
+                                    : 'bg-white/5 border-white/10 hover:border-white/30 hover:bg-white/10'
                                     }`}
                             >
                                 <service.icon className={`w-10 h-10 mb-4 ${selectedService === service.id ? 'text-red-500' : 'text-palladium'
