@@ -19,18 +19,18 @@ if (!supabaseUrl || !supabaseServiceKey) {
 
 const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-// Product data (matches frontend data structure)
+// Product data (matches table structure)
 const products = [
     {
         slug: 'lapis-housing-mark-iv',
         name: 'Lapis Housing Mark IV',
         description: 'Deep blue Lapis Lazuli housing with natural pyrite inclusions.',
-        price_gbp: 45000, // £450.00 in pence
+        price_gbp: 45000,
         category: 'housing',
-        stock_status: 'in_stock',
         material: 'Lapis Lazuli',
+        availability: 'In Stock',
         image_url: '/assets/casing-lapis.jpg',
-        metadata: { finish: 'polished', weight: '45g' }
+        featured: true
     },
     {
         slug: 'obsidian-shell',
@@ -38,10 +38,10 @@ const products = [
         description: 'Volcanic glass finish. Fingerprint magnet, but worth it.',
         price_gbp: 55000,
         category: 'housing',
-        stock_status: 'in_stock',
         material: 'Obsidian',
+        availability: 'In Stock',
         image_url: '/assets/casing-obsidian.jpg',
-        metadata: { finish: 'mirror', weight: '52g' }
+        featured: false
     },
     {
         slug: 'palladium-core',
@@ -49,10 +49,10 @@ const products = [
         description: 'Rare metal housing. Cold to the touch, heavy in the hand.',
         price_gbp: 120000,
         category: 'housing',
-        stock_status: 'limited',
         material: 'Palladium',
+        availability: 'Limited',
         image_url: '/assets/casing-palladium.jpg',
-        metadata: { finish: 'brushed', weight: '78g', limited_edition: true }
+        featured: true
     },
     {
         slug: 'weird-orange-housing',
@@ -60,10 +60,10 @@ const products = [
         description: 'High-visibility ceramic coating. Impossible to lose.',
         price_gbp: 45000,
         category: 'housing',
-        stock_status: 'in_stock',
         material: 'Ceramic',
+        availability: 'In Stock',
         image_url: '/assets/casing-orange.jpg',
-        metadata: { finish: 'matte', weight: '38g' }
+        featured: false
     },
     {
         slug: 'weirdphone-full-kit',
@@ -71,10 +71,10 @@ const products = [
         description: 'The complete experience. Housing, internals, and concierge membership.',
         price_gbp: 350000,
         category: 'build',
-        stock_status: 'made_to_order',
         material: 'Mixed',
+        availability: 'Made to Order',
         image_url: '/assets/full-kit.jpg',
-        metadata: { includes_concierge: true, build_time_days: 14 }
+        featured: true
     },
     {
         slug: 'camera-module-ring',
@@ -82,10 +82,10 @@ const products = [
         description: 'Reinforced titanium ring for the camera array.',
         price_gbp: 15000,
         category: 'hardware',
-        stock_status: 'in_stock',
         material: 'Titanium',
+        availability: 'In Stock',
         image_url: '/assets/detail-camera.jpg',
-        metadata: {}
+        featured: false
     },
     {
         slug: 'side-rail-system',
@@ -93,10 +93,10 @@ const products = [
         description: 'Surgical grade steel rails for structural integrity.',
         price_gbp: 25000,
         category: 'hardware',
-        stock_status: 'in_stock',
         material: 'Steel',
+        availability: 'In Stock',
         image_url: '/assets/detail-side.jpg',
-        metadata: {}
+        featured: false
     },
     {
         slug: 'concierge-gift-box',
@@ -104,10 +104,10 @@ const products = [
         description: 'Premium unboxing experience for gifts.',
         price_gbp: 8500,
         category: 'accessory',
-        stock_status: 'in_stock',
         material: 'Card / Velvet',
+        availability: 'In Stock',
         image_url: '/assets/accessory-box.jpg',
-        metadata: {}
+        featured: false
     },
     {
         slug: 'service-kit',
@@ -115,10 +115,10 @@ const products = [
         description: 'Tools and cloths to keep your WeirdPhone pristine.',
         price_gbp: 4500,
         category: 'accessory',
-        stock_status: 'in_stock',
         material: 'Synthetic',
+        availability: 'In Stock',
         image_url: '/assets/product-3.jpg',
-        metadata: {}
+        featured: false
     },
     {
         slug: 'prototype-01',
@@ -126,10 +126,10 @@ const products = [
         description: 'Early development unit. Determining function...',
         price_gbp: 999900,
         category: 'archive',
-        stock_status: 'out_of_stock',
         material: 'Unknown',
+        availability: 'Limited',
         image_url: '/assets/product-1.jpg',
-        metadata: { collectors_item: true }
+        featured: false
     }
 ];
 
@@ -137,12 +137,12 @@ async function seedProducts() {
     console.log('🌱 Starting product seed...\n');
 
     try {
-        // First, clear existing products (optional - comment out to append)
+        // First, clear existing products
         console.log('   Clearing existing products...');
         const { error: deleteError } = await supabase
             .from('products')
             .delete()
-            .neq('id', '00000000-0000-0000-0000-000000000000'); // Delete all
+            .neq('id', '00000000-0000-0000-0000-000000000000');
 
         if (deleteError) {
             console.warn('   Warning: Could not clear products:', deleteError.message);
