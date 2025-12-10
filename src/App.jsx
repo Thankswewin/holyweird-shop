@@ -13,6 +13,7 @@ const Cart = React.lazy(() => import('@/pages/Cart'));
 const CheckoutSuccess = React.lazy(() => import('@/pages/CheckoutSuccess'));
 const WeirdClinic = React.lazy(() => import('@/pages/WeirdClinic'));
 const Swap = React.lazy(() => import('@/pages/Swap'));
+const About = React.lazy(() => import('@/pages/About'));
 
 // Placeholders for now
 const ValidRoute = ({ title }) => (
@@ -40,7 +41,7 @@ function App() {
               <Route path="m-concierge" element={<Concierge />} />
               <Route path="weird-clinic" element={<WeirdClinic />} />
               <Route path="swap" element={<Swap />} />
-              <Route path="about" element={<ValidRoute title="About Us" />} />
+              <Route path="about" element={<About />} />
               <Route path="contact" element={<ValidRoute title="Contact" />} />
 
               <Route path="*" element={<ValidRoute title="404 Not Found" />} />
