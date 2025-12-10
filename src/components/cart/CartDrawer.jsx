@@ -3,36 +3,28 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Minus, Plus, ShoppingBag, Trash2 } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import { Button } from '@/components/ui/Button';
-import { checkoutAPI } from '@/lib/api';
+
+// PayPal payment link - replace with your actual PayPal.me link
+const PAYPAL_LINK = 'https://www.paypal.me/holyweirdtech';
 
 const CartDrawer = () => {
     const { items, isOpen, toggleCart, removeItem, updateQuantity, totalPrice, clearCart } = useCart();
 
-    const handleCheckout = async () => {
+    const handleCheckout = () => {
         if (items.length === 0) return;
 
-        try {
-            // Format items for API
-            const checkoutItems = items.map(item => ({
-                id: item.id,
-                name: item.name,
-                description: item.description,
-                price_gbp: item.price * 100, // Convert to pence
-                quantity: item.quantity,
-                image: item.image,
-            }));
+        // Redirect to PayPal with amount
+        const paypalUrl = `${PAYPAL_LINK}/${totalPrice.toFixed(2)}GBP`;
 
-            const { url } = await checkoutAPI.createSession(checkoutItems);
+        // Store order in localStorage for reference
+        localStorage.setItem('pendingOrder', JSON.stringify({
+            items,
+            total: totalPrice,
+            date: new Date().toISOString()
+        }));
 
-            if (url) {
-                window.location.href = url;
-            } else {
-                alert('Checkout is not configured yet. Please add Stripe credentials.');
-            }
-        } catch (error) {
-            console.error('Checkout failed:', error);
-            alert('Checkout failed. Please try again.');
-        }
+        window.open(paypalUrl, '_blank');
+        toggleCart();
     };
 
     return (
@@ -132,10 +124,10 @@ const CartDrawer = () => {
                                 </div>
                                 <Button
                                     size="lg"
-                                    className="w-full bg-weird-orange hover:bg-weird-orange/80"
+                                    className="w-full bg-[#0070ba] hover:bg-[#003087] text-white"
                                     onClick={handleCheckout}
                                 >
-                                    Checkout
+                                    Pay with PayPal
                                 </Button>
                                 <button
                                     onClick={clearCart}
@@ -153,3 +145,4 @@ const CartDrawer = () => {
 };
 
 export default CartDrawer;
+

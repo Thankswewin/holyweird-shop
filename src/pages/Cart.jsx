@@ -3,35 +3,30 @@ import { Link } from 'react-router-dom';
 import { Trash2, ArrowLeft, ShoppingBag } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import { Button } from '@/components/ui/Button';
-import { checkoutAPI } from '@/lib/api';
+
+// PayPal payment link - replace with your actual PayPal.me link
+const PAYPAL_LINK = 'https://www.paypal.me/holyweirdtech';
 
 const Cart = () => {
     const { items, removeItem, updateQuantity, totalPrice, clearCart } = useCart();
 
-    const handleCheckout = async () => {
+    const handleCheckout = () => {
         if (items.length === 0) return;
 
-        try {
-            const checkoutItems = items.map(item => ({
-                id: item.id,
-                name: item.name,
-                description: item.description,
-                price_gbp: item.price * 100,
-                quantity: item.quantity,
-                image: item.image,
-            }));
+        // Build order summary for PayPal note
+        const orderSummary = items.map(item => `${item.name} x${item.quantity}`).join(', ');
 
-            const { url } = await checkoutAPI.createSession(checkoutItems);
+        // Redirect to PayPal with amount
+        const paypalUrl = `${PAYPAL_LINK}/${totalPrice.toFixed(2)}GBP`;
 
-            if (url) {
-                window.location.href = url;
-            } else {
-                alert('Checkout is not configured yet. Please add Stripe credentials.');
-            }
-        } catch (error) {
-            console.error('Checkout failed:', error);
-            alert('Checkout failed. Please try again.');
-        }
+        // Store order in localStorage for reference
+        localStorage.setItem('pendingOrder', JSON.stringify({
+            items,
+            total: totalPrice,
+            date: new Date().toISOString()
+        }));
+
+        window.open(paypalUrl, '_blank');
     };
 
     return (
@@ -125,7 +120,7 @@ const Cart = () => {
                                 </div>
                                 <div className="flex justify-between text-gray-400">
                                     <span>Shipping</span>
-                                    <span>Calculated at checkout</span>
+                                    <span>Calculated separately</span>
                                 </div>
                             </div>
 
@@ -138,14 +133,17 @@ const Cart = () => {
 
                             <Button
                                 size="lg"
-                                className="w-full bg-weird-orange hover:bg-weird-orange/80"
+                                className="w-full bg-[#0070ba] hover:bg-[#003087] text-white"
                                 onClick={handleCheckout}
                             >
-                                Proceed to Checkout
+                                <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944 3.72a.765.765 0 0 1 .757-.629h6.557c2.627 0 4.574.567 5.6 1.676.453.489.766 1.017.945 1.59.185.592.243 1.29.174 2.12-.066.793-.226 1.494-.478 2.1a5.972 5.972 0 0 1-.918 1.583 4.76 4.76 0 0 1-1.391 1.111c-.538.306-1.152.532-1.828.676-.696.15-1.466.225-2.287.225H9.697a.765.765 0 0 0-.757.63l-.793 5.018-.234 1.487a.329.329 0 0 1-.325.276H7.076z" />
+                                </svg>
+                                Pay with PayPal
                             </Button>
 
                             <p className="text-xs text-gray-500 text-center mt-4">
-                                Secure checkout powered by Stripe
+                                You'll be redirected to PayPal to complete your purchase
                             </p>
                         </div>
                     </div>
@@ -156,3 +154,4 @@ const Cart = () => {
 };
 
 export default Cart;
+
