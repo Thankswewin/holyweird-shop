@@ -1,16 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Heart, ShoppingBag, User, Menu, X } from 'lucide-react';
+import { Search, Heart, User, Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/Button';
-import { useCart } from '@/context/CartContext';
 
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const { itemCount, toggleCart } = useCart();
 
     const navLinks = [
-        { name: 'Shop', path: '/shop' },
         { name: 'Dolly', path: '/dolly-builder' },
         { name: 'D$T', path: '/weird-engine' },
         { name: 'M.Concierge', path: '/m-concierge' },
@@ -48,19 +45,6 @@ const Header = () => {
                     <Button variant="ghost" size="icon" className="text-gray-300 hover:text-white relative">
                         <Heart className="w-5 h-5" />
                     </Button>
-                    <Button
-                        variant="ghost"
-                        size="icon"
-                        className="text-gray-300 hover:text-white relative"
-                        onClick={toggleCart}
-                    >
-                        <ShoppingBag className="w-5 h-5" />
-                        {itemCount > 0 && (
-                            <span className="absolute -top-1 -right-1 w-5 h-5 bg-weird-orange rounded-full text-[10px] font-bold flex items-center justify-center">
-                                {itemCount > 9 ? '9+' : itemCount}
-                            </span>
-                        )}
-                    </Button>
                     <Button variant="ghost" size="icon" className="text-gray-300 hover:text-white hidden sm:flex">
                         <User className="w-5 h-5" />
                     </Button>
@@ -91,13 +75,6 @@ const Header = () => {
                                 {link.name}
                             </Link>
                         ))}
-                        <Link
-                            to="/cart"
-                            className="text-lg font-medium text-weird-orange"
-                            onClick={() => setIsMenuOpen(false)}
-                        >
-                            Cart ({itemCount})
-                        </Link>
                     </nav>
                 </div>
             )}
@@ -106,4 +83,3 @@ const Header = () => {
 };
 
 export default Header;
-
