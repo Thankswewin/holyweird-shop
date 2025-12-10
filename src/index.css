@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 3.9%; /* #0A0A0A Obsidian */
+    --foreground: 0 0% 98%;
+  }
+
+  body {
+    @apply bg-obsidian text-white font-sans antialiased;
+    background-color: #0A0A0A;
+  }
+}
+
+@layer utilities {
+  .glass-panel {
+    @apply bg-white/5 backdrop-blur-md border border-white/10 shadow-lg;
+  }
+  
+  .glossy-btn {
+    @apply relative overflow-hidden bg-white/10 backdrop-blur-sm border border-white/20 
+           hover:bg-white/20 hover:border-white/30 transition-all duration-300
+           shadow-[0_4px_12px_rgba(0,0,0,0.5)] active:scale-95;
+  }
+}
