@@ -126,19 +126,26 @@ const Concierge = () => {
 
                         <div className="space-y-2">
                             <label className="text-xs uppercase font-bold text-gray-500">Message</label>
-                            <textarea rows={4} className="w-full bg-black/40 border border-white/10 rounded-lg p-3 text-white focus:border-weird-orange focus:outline-none transition-colors" placeholder="Tell us about your request..." />
+                            <textarea rows={3} className="w-full bg-black/40 border border-white/10 rounded-lg p-3 text-white focus:border-weird-orange focus:outline-none transition-colors resize-none" placeholder="Tell us about your request..." />
                         </div>
 
-                        <div className="space-y-2">
-                            <label className="text-xs uppercase font-bold text-gray-500">Attachment</label>
-                            <div className="border-2 border-dashed border-white/10 rounded-lg p-8 text-center hover:border-white/30 transition-colors cursor-pointer">
-                                <p className="text-sm text-gray-400">Drop files here or click to upload</p>
-                                <p className="text-xs text-gray-600 mt-1">Images, moodboards, specs</p>
+                        {/* Compact futuristic file upload */}
+                        <div className="flex items-center gap-4 p-3 bg-black/40 rounded-xl border border-white/10 hover:border-white/30 transition-all cursor-pointer group">
+                            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-weird-orange/20 to-purple-500/20 flex items-center justify-center border border-white/10 group-hover:scale-110 transition-transform">
+                                <svg className="w-5 h-5 text-weird-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
                             </div>
+                            <div className="flex-1">
+                                <p className="text-sm text-white font-medium">Add Attachment</p>
+                                <p className="text-xs text-gray-500">Images, moodboards, specs</p>
+                            </div>
+                            <div className="text-xs text-gray-600 px-2 py-1 bg-white/5 rounded-md">Optional</div>
                         </div>
 
-                        <Button size="lg" className="w-full bg-white text-black hover:bg-palladium mt-4">
-                            Submit Request <Send className="w-4 h-4 ml-2" />
+                        <Button size="lg" className="w-full bg-gradient-to-r from-white to-palladium text-black hover:opacity-90 font-bold tracking-wide mt-2 group">
+                            Submit Request
+                            <Send className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                         </Button>
                     </form>
                 </div>
